@@ -21,6 +21,9 @@
     "style-loader": "^0.19.1",
     "webpack": "^3.10.0"
   },
+  "engines": {
+    "node": ">=6 <7"
+  },
   "scripts": {
     "build": "webpack"
   }
