@@ -16,7 +16,7 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "src/demo/index.html"),
-      chunks: ["demo"]
+      chunks: ["demo", "vendor"]
     }),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
