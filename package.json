@@ -15,6 +15,9 @@
     "eslint-import-resolver-webpack": "^0.8.4",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-react": "^7.5.1",
+    "express": "^4.16.2",
+    "html-webpack-plugin": "^2.30.1",
+    "nodemon": "^1.14.10",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "sass-loader": "^6.0.6",
@@ -25,6 +28,8 @@
     "node": ">=6 <7"
   },
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "build:dev": "webpack --progress --watch",
+    "start:dev": "nodemon --watch dist/demo-dist.js demo-server.js"
   }
 }
