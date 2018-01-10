@@ -1,52 +1,40 @@
 import path from "path";
 
 import webpack from "webpack";
-import HtmlWebpackPlugin from "html-webpack-plugin";
-import WebpackExternalModule from "webpack-external-module";
+import UglifyJsPlugin from "uglifyjs-webpack-plugin";
 
 const config = {
   entry: {
-    lib: path.resolve(__dirname, "src/lib/index.js"),
-    demo: path.resolve(__dirname, "src/demo/index.js")
+    lib: path.resolve(__dirname, "src/lib/index.js")
   },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "[name]-bundle.js"
+    filename: "[name]-bundle.js",
+    libraryTarget: "umd",
+    umdNamedDefine: true
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "src/demo/index.html"),
-      chunks: ["demo", "vendor"]
-    }),
-    new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: "vendor",
-      filename: "[name]-bundle.js",
-      minChunks: module => WebpackExternalModule.isExternal(module)
-    })
-  ],
+  plugins: [new webpack.NoEmitOnErrorsPlugin()],
   module: {
     rules: [
       {
         test: /\.js$/,
-        include: [
-          path.resolve(__dirname, "src/lib"),
-          path.resolve(__dirname, "src/demo")
-        ],
+        include: [path.resolve(__dirname, "src/lib")],
         loader: "babel-loader"
       }
     ]
   },
   resolve: {
     alias: {
-      lib: path.resolve(__dirname, "src/lib"),
-      demo: path.resolve(__dirname, "src/demo")
+      lib: path.resolve(__dirname, "src/lib")
     },
     extensions: [".js"]
-  }
+  },
+  externals: /^(react|react-virtualized)$/
 };
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV === "production") {
+  config.plugins.push(new UglifyJsPlugin());
+} else {
   config.devtool = "source-map";
 }
 
